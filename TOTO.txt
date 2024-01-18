@@ -1,0 +1,28 @@
+
+IN>>> Postman : pas de données transmises, 
+aucun élément n'apparaît sur Cygwin.
+
+
+VAR ??? 
+not const not let →→→ var 
+!!! > middlewares/authenticated.js
+>>
+    var token = req.headers.authorization.replace(/['"]+/g, '');
+<<
+
+
+
+INTRO: 
+Explanation as to why this project 
+Why a music player ? 
+Or quotes generator ? 
+CDC
+Diags 
+
+EXPLIQUER : 
+
+le fonctionnement de l'app routes/user ↔ controller/user 
+
+Chargement d'une image -5.25 
+changement de fs.exists to fs.access+
++  path_file
