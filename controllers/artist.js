@@ -11,16 +11,56 @@ const Artist = require('../models/artist');
 const Album = require('../models/album');
 const Song = require('../models/song');
 
-// function getArtist(req, res) {
-//     // >>> 6.28.1>>> Conseguir el artista
-//     //D'abord, il faut un getArtist, pour récupérer l'artiste dans la base de données :
-//     // Pour cela, on récupère un paramètre qui arrive grâce à l'url ; ici, l'id de l'artiste :
-//     var artistId = req.params.id;
+// 6.27.1>>>
+function saveArtist(req, res) {
+    var artist = new Artist();
+    // Assigner des valeurs à chacune des propriété de artist, = l'information de chaque artiste qui sera sauvegardé
+    var params = req.body;
+    artist.name = params.name;
+    artist.description = params.description;
+    artist.image = 'null'  // null car on n'a pas d'image qui arrive pour le moment, sinon → // params.image
 
-//     Artist.findById(artistId, (err, artist) => {
-//         if (err) {
-//             res.status(500).send({ message: 'Erreur dans la requête' });
-//         } else {
+    // Depreciated : no longer accepts callbacks, of course 
+    //     artist.save((err, artistStored) => {
+    //         if (err) {
+    //             res.status(500).send({ message: "Erreur pendant la sauvegarde de l'artiste" });
+    //         } else {
+    //             if (!artistStored) {
+    //                 res.status(404).send({message: "Erreur : Echec de la sauvegarde de l'artiste"})
+    //             } else {
+    //                 res.status(200).send({ artist: artistStored });
+    //             }
+    //         }
+    //     })
+    // }
+    //  ↓       ↓       ↓       ↓       ↓   ↓   
+
+    artist.save()
+        .then(artistStored => {
+            if (!artistStored) {
+                res.status(404).send({ message: "Erreur : Echec de la sauvegarde de l'artiste" });
+            } else {
+                res.status(200).send({ artist: artistStored });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({ message: "Erreur pendant la sauvegarde de l'artiste", error: err });
+        });
+
+}
+// <<< 6.27.1  → routes/artist.js
+
+
+// function getArtist(req, res) {
+    //     // >>> 6.28.1>>> Conseguir el artista
+    //     //D'abord, il faut un getArtist, pour récupérer l'artiste dans la base de données :
+    //     // Pour cela, on récupère un paramètre qui arrive grâce à l'url ; ici, l'id de l'artiste :
+    //     var artistId = req.params.id;
+    
+    //     Artist.findById(artistId, (err, artist) => {
+        //         if (err) {
+            //             res.status(500).send({ message: 'Erreur dans la requête' });
+            //         } else {
 //             if (!artist) {
 //                 res.status(404).send({ message: 'L\'artiste n\'existe pas dans la base de données' });
 //             } else {
@@ -396,44 +436,6 @@ function getImageFile(req, res) {
 }
 
 
-// 6.27.1>>>
-function saveArtist(req, res) {
-    var artist = new Artist();
-    // Assigner des valeurs à chacune des propriété de artist, = l'information de chaque artiste qui sera sauvegardé
-    var params = req.body;
-    artist.name = params.name;
-    artist.description = params.description;
-    artist.image = 'null'  // null car on n'a pas d'image qui arrive pour le moment, sinon → // params.image
-
-    // Depreciated : no longer accepts callbacks, of course 
-    //     artist.save((err, artistStored) => {
-    //         if (err) {
-    //             res.status(500).send({ message: "Erreur pendant la sauvegarde de l'artiste" });
-    //         } else {
-    //             if (!artistStored) {
-    //                 res.status(404).send({message: "Erreur : Echec de la sauvegarde de l'artiste"})
-    //             } else {
-    //                 res.status(200).send({ artist: artistStored });
-    //             }
-    //         }
-    //     })
-    // }
-    //  ↓       ↓       ↓       ↓       ↓   ↓   
-
-    artist.save()
-        .then(artistStored => {
-            if (!artistStored) {
-                res.status(404).send({ message: "Erreur : Echec de la sauvegarde de l'artiste" });
-            } else {
-                res.status(200).send({ artist: artistStored });
-            }
-        })
-        .catch(err => {
-            res.status(500).send({ message: "Erreur pendant la sauvegarde de l'artiste", error: err });
-        });
-
-}
-// <<< 6.27.1  → routes/artist.js
 
 module.exports = {
     getArtist,
