@@ -105,12 +105,78 @@ function getSongs(req, res) {
 
 // <<<8.43 GET SONGS LIST
 
+// 8.44>>> UPDATE SONG
 
+function updateSong(req, res) {
+    var songId = req.params.id;
+    var update = req.body;
+
+    Song.findByIdAndUpdate(songId, update, { new: true })
+        .then(songUpdated => {
+            if (!songUpdated) {
+                res.status(404).send({ message: 'Echec: la chanson n\'existe pas' });
+            } else {
+                res.status(200).send({ song: songUpdated });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({ message: 'Erreur serveur', error: err });
+        });
+}
+
+// <<<8.44 UPDATE SONG >routes/song
+
+// 8.45>>> DELETE SONG
+
+function deleteSong(req, res) {
+    var songId = req.params.id;
+    
+    Album.findByIdAndRemove(songId)
+        .then(songRemoved => {
+            if (!songRemoved) {
+                res.status(404).send({ message: 'Echec: La chanson n\'a pas été supprimée' });
+            } else {
+                res.status(200).send({ songRemoved });
+
+                // Supprimer tous les albums de l'album
+                Song.find({ song: songRemoved._id }).remove()
+                    .then(songRemoved => {
+                        if (songRemoved) {
+                            // Supprimer toutes les chansons des albums supprimés
+                            Song.find({ album: songRemoved._id }).remove()
+                                .then(songRemoved => {
+                                    if (!songRemoved) {
+                                        res.status(404).send({ message: 'La chanson n\'a pas été supprimée' });
+                                    } else {
+                                        res.status(200).send({ song: songRemoved });
+                                    }
+                                })
+                                .catch(err => {
+                                    res.status(500).send({ message: 'Erreur: échec de la suppression de la chanson', error: err });
+                                });
+                        } else {
+                            res.status(500).send({ message: 'Erreur: échec de la suppression de la chanson' });
+                        }
+                    })
+                    .catch(err => {
+                        res.status(500).send({ message: 'Erreur: échec de la suppression de la chanson', error: err });
+                    });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({ message: 'Erreur: échec de la suppression de la chanson', error: err });
+        });
+
+}
+
+// <<<8.45 DELETE SONG
 
 module.exports = {
     getSong,
     getSongs, 
-    saveSong
+    saveSong,
+    updateSong,
+    deleteSong
 }
 
 // <<<8.40 CONTROLADOR DE CANCIONES > /routes/song
