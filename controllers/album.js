@@ -59,6 +59,19 @@ const Song = require('../models/song');
 //     });
 // }
 
+
+// !!!>>> .exec()
+// In Mongoose, the .exec() method is used to execute a query. It is often used at the end of a query chain to actually send the query to the database. When you build a Mongoose query, it returns a Query object, and you can chain various query-building methods to it. However, until you call .exec(), the query is not sent to the database.
+// Alternatively, you can use promises with .exec()
+// In more recent versions of Mongoose, you can also use await with .exec()
+// In your code, you might see .exec() used after populate to execute the query and populate the referenced documents. 
+// This ensures that the populate method takes effect and the associated documents are populated before the final result is obtained.
+
+// The Mongoose populate method itself returns a query, and you can use it directly without the need for the exec method. The populate method is chainable and returns the same query object, which is then used in the promise chain.
+
+// // In recent versions of Mongoose, they made the exec method optional for promises. When you use promises (as in the .then() and .catch() syntax), Mongoose automatically executes the query without the need for an explicit exec call.
+// <<<!!! .exec()
+
 function getAlbum(req, res) {
     var albumId = req.params.id;
 

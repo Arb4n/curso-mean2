@@ -17,6 +17,10 @@ const artist_routes = require('./routes/artist');
 // 7.33>>>
 const album_routes = require('./routes/album');
 // <<<7.33
+// 8.40>>> CONTROLADOR DE CANCIONES <controllers/song <routes/song
+const song_routes = require('./routes/song');
+// <<<8.40 CONTROLADOR DE CANCIONES
+
 // Configurer des dépendances  : 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -30,9 +34,11 @@ app.use(bodyParser.json());
 app.use('/api', user_routes); 
 // <<<5.18.3
 // 6.26.4>>> 
+// Charger la route grâce au middleware express : 
 app.use('/api', user_routes);
 app.use('/api', artist_routes);
 app.use('/api', album_routes);
+app.use('/api', song_routes);
 
 // 4.14.3 >>> définition des routes
 // route vers /test; function() de chargement
