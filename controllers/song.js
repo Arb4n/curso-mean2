@@ -207,14 +207,73 @@ function deleteSong(req, res) {
 
 }
 
-// <<<8.45 DELETE SONG
+// <<<8.45 DELETE SONG >routes/song
+
+// 8.46>>> UPLOAD SONG
+
+async function uploadSongFile(req, res) {
+    var songId = req.params.id;
+    var file_name = "Echec du chargement...";
+
+    if (req.files) {
+        var file_path = req.files.songFile.path;
+        var file_split = file_path.split('\\');
+        var file_name = file_split[2];
+
+        var ext_split = file_name.split('.');
+        var file_ext = ext_split[1];
+
+        if (file_ext == 'ogg' || file_ext == 'mp3' || file_ext == 'wma') {
+            try {
+                const songUpdated = await Song.findByIdAndUpdate(songId, { songFile: file_name });
+                if (!songUpdated) {
+                    res.status(404).send({ message: 'Échec de la modification du fichier' });
+                } else {
+                    res.status(200).send({ song: songUpdated });
+                }
+            } catch (error) {
+                res.status(500).send({ message: 'Erreur : le fichier ne s\'est pas chargé' });
+            }
+        } else {
+            res.status(400).send({ message: 'Extension du fichier invalide' });
+        }
+    } else {
+        res.status(500).send({ message: 'Échec : aucune image chargée' });
+    }
+}
+
+function getSongFile(req, res) {
+    // On récupère le paramètre params qui va être récupéré par l'URL qui 
+    // sera imageFile;
+    var songFile = req.params.songFile;
+    // ICI : utilisation d'une variable path_file
+    var path_file = './uploads/songs/' + songFile;
+
+    // Vérifier si un fichier existe dans le serveur avec 
+    // le file system : 
+    // fs.exists(path_file, function (exists) {
+    fs.access(path_file, fs.constants.F_OK, (err) => {
+        //  ↑ ↑ ↑ fs.exists deprecated ! → use fs.constants.f_OK ? 
+        if (!err) {
+            // si le fichier existe, on l'envoie ; simple condition
+            res.sendFile(path.resolve(path_file));
+            //  Sinon, simple message d'erreur :
+        } else {
+            res.status(500).send({ message: 'Échec : Le fichier n\'existe pas' });
+
+        }
+    })
+}
+// <<<8.46 UPLOAD SONG
 
 module.exports = {
     getSong,
     getSongs,
     saveSong,
     updateSong,
-    deleteSong
+    deleteSong,
+    uploadSongFile,
+    getSongFile
 }
 
 // <<<8.40 CONTROLADOR DE CANCIONES > /routes/song

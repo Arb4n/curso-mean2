@@ -28,6 +28,21 @@ app.use(bodyParser.json());
 // traduit en données json les données transmises par les requetes http
 
 // configurer les en-t^te http
+// 9.47>>> CONFIGURAR CABECERAS HTTP CORS 
+// Ce que reçoit le middleware est : une request, une response, et un next, qui permet de sortir du middleware pour passer à autre chose
+app.use((req,res, next) => {
+    // configurer l'en-tête header: 
+    res.header('Access-Control-Allow-Origin', '*'); // -> on permet l'accès de notre api à tous les domaines
+    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method'); // En-têtes nécessaires pour que l'api fonctionne au niveau de .?.  
+});
+res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE')
+// Pour qu'on sorte du middleware ci-dessu et continue le flux normal d'exécution, une route concrète, une méthode d'un contrôleur, etc. -> méthode next() : 
+next(); 
+
+// !!!>>> Pourquoi 'req' = non utilisé ?  <<<!!!
+// <<<9.47 CONFIGURAR CABECERAS HTTP CORS - END
+
 
 // routes base
 // 5.18.3>>>

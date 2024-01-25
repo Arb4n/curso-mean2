@@ -12,9 +12,8 @@ const md_upload = multipart({ uploadDir: './uploads/albums' });
 
 // route de test, avec la route album → avec la méthode ensureAuth
 // >>> 6.28.2>>> routes/album.js ←
-// Compléter la route avec l'id : '/album' → 'album/:id' <<<6.28.2
+api.get('/album/:id', md_auth.ensureAuth, AlbumController.getAlbum); // Compléter la route avec l'id : '/album' → 'album/:id' <<<6.28.2
 // 7.35>>> Ajouté '/:id' 7.35<<<
-api.get('/album/:id', md_auth.ensureAuth, AlbumController.getAlbum);
 api.get('/albums/:artist?', md_auth.ensureAuth, AlbumController.getAlbums);
 // 7.34>>> SALVAR ALBUM <controllers/album
 api.post('/album', md_auth.ensureAuth, AlbumController.saveAlbum);
