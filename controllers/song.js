@@ -12,15 +12,15 @@ const Artist = require('../models/artist');
 const Album = require('../models/album');
 const Song = require('../models/song');
 
-function getSong(req, res) {
-res.status(200).send({message: 'COntrôleur chanson'})
-}
+// function getSong(req, res) {
+//     res.status(200).send({ message: 'Contrôleur chanson' })
+// }
 
 
 // 8.41>>>  Acción para crear canciones dentro de un album 
 
 
-function saveSong(req,res){
+function saveSong(req, res) {
     var song = new Song();
 
     var params = req.body;
@@ -31,42 +31,80 @@ function saveSong(req,res){
     song.album = params.album; // on récupère les id de album pour pouvoir obtenir ses infos et 'populate' les données de la chanson, et savoir à quel album elle est associée. 
 
     song.save()
-    .then(songStored => {
-        if (!songStored) {
-            res.status(404).send({ message: "Erreur : Echec de la sauvegarde de la chanson" });
-        } else {
-            res.status(200).send({ song: songStored });
-        }
-    })
-    .catch(err => {
-        res.status(500).send({ message: "Erreur serveur", error: err });
-    });
+        .then(songStored => {
+            if (!songStored) {
+                res.status(404).send({ message: "Erreur : Echec de la sauvegarde de la chanson" });
+            } else {
+                res.status(200).send({ song: songStored });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({ message: "Erreur serveur", error: err });
+        });
 
 }
 
 // <<<8.41  Acción para crear canciones dentro de un album >routes/song : création de route, de type post
 
 // S8.42>>> - GET SONG - http://localhost:3977/api/song
+// FONCTIONNE ::>>>
+// function getSong(req, res) {
+//     // Récupération de l'ID de la chanson à partir des paramètres de l'URL
+//     var songId = req.params.id;
+
+//     // Utilisation de la méthode findById avec une promesse
+//     Song.findById(songId).populate({path: 'album'})
+//         .then(song => {
+//             if (!song) {
+//                 // Aucune chanson trouvé avec l'ID donné
+//                 res.status(404).send({ message: "La chanson n'existe pas dans la base de données" });
+//             } else {
+//                 // Chanson trouvée avec succès
+//                 res.status(200).send({ song });
+//             }
+//         })
+//         .catch(err => {
+//             // Gestion des erreurs
+//             res.status(500).send({ message: 'Erreur dans la requête', error: err });
+//         });
+// }
+
+// function getSong(req, res) {
+//     var songId = req.params.id;
+
+//     Song.findById(songId)
+//         .populate({ path: 'album' })
+//         .exec((err, song) => {
+//             if (err) {
+//                 res.status(500).send({ message: 'Erreur dans la requête', error: err });
+//             } else {
+//                 if (!song) {
+//                     res.status(404).send({ message: 'La chanson n\'existe pas!' });
+//                 } else {
+//                     res.status(200).send({ song });
+//                 }
+//             }
+//         });
+// }
+
 function getSong(req, res) {
-    // Récupération de l'ID de la chanson à partir des paramètres de l'URL
     var songId = req.params.id;
 
-    // Utilisation de la méthode findById avec une promesse
-    Song.findById(songId).populate({path: 'album'})
+    Song.findById(songId)
+        .populate({ path: 'album' })
+        // .exec()
         .then(song => {
             if (!song) {
-                // Aucune chanson trouvé avec l'ID donné
-                res.status(404).send({ message: "La chanson n'existe pas dans la base de données" });
+                res.status(404).send({ message: 'La chanson n\'existe pas!' });
             } else {
-                // Chanson trouvée avec succès
                 res.status(200).send({ song });
             }
         })
         .catch(err => {
-            // Gestion des erreurs
             res.status(500).send({ message: 'Erreur dans la requête', error: err });
         });
 }
+
 
 // <<<8.42 - GET SONG - http://localhost:3977/api/song
 
@@ -82,7 +120,7 @@ function getSongs(req, res) {
         // ils sont classés par année, à partir de l'album le plus récent 
         var find = Song.find({ song: songId }).sort('number');
     }
-    find.populate({ path: 'album', populate: {path: 'artist', model: 'Artist'} }).then(songs => { // !!! il faut aussi populer à l'intérieur, 'nested population', pour récupérer les informations artist dans album
+    find.populate({ path: 'album', populate: { path: 'artist', model: 'Artist' } }).then(songs => { // !!! il faut aussi populer à l'intérieur, 'nested population', pour récupérer les informations artist dans album
         // NOT SO GOOD : AN ARRAY CANNOT BE FALSY ; !albums checks that
         // if (!albums) {
         //     res.status(404).send({ message: 'Il n\'y a pas d\'albums' });
@@ -130,7 +168,7 @@ function updateSong(req, res) {
 
 function deleteSong(req, res) {
     var songId = req.params.id;
-    
+
     Album.findByIdAndRemove(songId)
         .then(songRemoved => {
             if (!songRemoved) {
@@ -173,7 +211,7 @@ function deleteSong(req, res) {
 
 module.exports = {
     getSong,
-    getSongs, 
+    getSongs,
     saveSong,
     updateSong,
     deleteSong
