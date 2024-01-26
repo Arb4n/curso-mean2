@@ -41,7 +41,7 @@ res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE')
 next(); 
 
 // !!!>>> Pourquoi 'req' = non utilisé ?  <<<!!!
-// <<<9.47 CONFIGURAR CABECERAS HTTP CORS - END
+// <<<9.47 CONFIGURAR CABECERAS HTTP CORS - END > 9.48 >controllers/user
 
 
 // routes base

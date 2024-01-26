@@ -286,13 +286,17 @@ async function uploadImage(req, res) {
                 if (!userUpdated) {
                     res.status(404).send({ message: 'Échec de la modification de l\'utilisateur' });
                 } else {
-                    res.status(200).send({ user: userUpdated });
+// 9.48>>> DEVOLVER IMAGEN RECIEN SUBIDA DEL USUARIO </app.js
+// res.status(200).send({ user: userUpdated }); ↓   ↓ ajouter la propriété pour l'image, qui renvoie le nom du fichier file_name = on a le nom complet de l'archive qu'on vient de upload = file_name, et l'objet complet qui a été actualisé = user: userUpdated
+res.status(200).send({image: file_name, user: userUpdated });
+
+// <<<9.48 DEVOLVER IMAGEN RECIEN SUBIDA DEL USUARIO > ANGULAR !!!
                 }
             } catch (error) {
                 res.status(500).send({ message: 'Erreur : le profil utilisateur n\'a pas été actualisé' });
             }
         } else {
-            res.status(400).send({ message: 'Extension du fichier invalide' });
+            res.status(400).send({ message: 'Extension du fichier invalide' }); // Error 400 ? OU 415 ? 
         }
     } else {
         res.status(500).send({ message: 'Échec : aucune image chargée' });
