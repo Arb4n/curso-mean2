@@ -15,7 +15,7 @@ api.get('/song/:id', md_auth.ensureAuth, SongController.getSong); // 8.42>>> Com
 api.get('/song/:album?', md_auth.ensureAuth, SongController.getSongs);
 api.post('/song', md_auth.ensureAuth, SongController.saveSong);
 api.put('/song', md_auth.ensureAuth, SongController.updateSong);
-api.delete('/song/:id', md_auth.ensureAuth, AlbumController.deleteSong);
+api.delete('/song/:id', md_auth.ensureAuth, SongController.deleteSong);
 // 8.46>>> SAVE AND UPDATE SONG <controllers/song
 api.post('/upload-file-song/:id', [md_auth.ensureAuth,
     // ICI >>> on utilise aussi le middleware md_upload

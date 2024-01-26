@@ -34,11 +34,11 @@ app.use((req,res, next) => {
     // configurer l'en-tête header: 
     res.header('Access-Control-Allow-Origin', '*'); // -> on permet l'accès de notre api à tous les domaines
     res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method'); // En-têtes nécessaires pour que l'api fonctionne au niveau de .?.  
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE')
+    // Pour qu'on sorte du middleware ci-dessu et continue le flux normal d'exécution, une route concrète, une méthode d'un contrôleur, etc. -> méthode next() : 
+    next(); 
 });
-res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE')
-// Pour qu'on sorte du middleware ci-dessu et continue le flux normal d'exécution, une route concrète, une méthode d'un contrôleur, etc. -> méthode next() : 
-next(); 
 
 // !!!>>> Pourquoi 'req' = non utilisé ?  <<<!!!
 // <<<9.47 CONFIGURAR CABECERAS HTTP CORS - END > 9.48 >controllers/user
