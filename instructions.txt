@@ -1,0 +1,7 @@
+FRONTEND>>>
+S11>>> EMPEZANDO A DEZAROLLAR EL FRONTEND SPA CON ANGULAR
+11.50>>> DIRECTORIOS DEL PROYECTO
+Bien organiser : créer && ouvrir un dossier api 
+Mettre tout le backend dedans. 
+
+
