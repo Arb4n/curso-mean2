@@ -1,0 +1,96 @@
+<!--  // 11.55>>> COMPONENTE PRINCIPAL Y VISTA>>> <app.component.ts -->
+<!-- La page du user connecté : -->
+<div *ngIf="identity" class="navigation col-lg-1">
+
+  <h1>
+    {{title}}
+  </h1>
+
+  <div class="clearfix"> <!-- ajoute un effet de flou autour du bouton cliqué = "floated content"-->
+  </div>
+
+  <div *ngIf="identity" class="central col-lg-11">
+    <p>_________♪ Vous êtes branché! ♫</p>
+  </div>
+</div>
+<!--11.56>>> CREAR FORMULARIOS DE LOGIN Y REGISTRO -->
+
+<div class="col-lg-12" *ngIf="!identity">
+  <!-- ? ou <div class="col-lg-12" *ngIf="!isLoggedIn"> ?-->
+  <div class="row">
+    <div class="col-lg-6 col-md-9 col-sm-9">
+      <h1>Identifie-toi</h1>
+      <!-- On va créer le formulaire de login ici
+    1: D'abord, visuellement ;
+  2: Puis on le liera aux données du componant-->
+      <!-- 11.57>>> TWO WAY DATA BINDING DANS LES FORMULAIRES
+      Convertir le formulare de login en un formulaire angular.
+      = simplement lui donner un nom : #loginForm
+      et on lui donne la valeur d'un/ lui indique qu'il est un formulaire angular :
+      ="ngForm" -->
+      <!-- <form class="col-md-7">-->
+      <form #loginForm="ngForm" (ngSubmit)="onSubmit()" class="col-md-8"> <!-- créer la méthode onSubmit pour vérifier les données du formulaire > app.component.ts -->
+
+        <p>
+          <label>Email:</label>
+          <!-- TODO : normalement, si type = "email", message d'erreur ; vérifier pourquoi il est absent -->
+          <input type="email" #email="ngModel" name="email" [(ngModel)]="user.email" class="form-control" required />
+          <!-- Montrer un messager d'erreur si le champ n'a pa été rempli -->
+          <!-- Si l'image n'est pas valide, Angular gère déjà cela, et si l'email n'est pas tapé, message erreur -->
+          <span *ngIf="!email.valid && email.touched">
+            <!-- TODO : trouver une méthode meilleure que email.touched -->
+            L'email est obligatoire
+
+          </span>
+        </p>
+        <p>
+          <label> Mot de Passe:</label>
+                <!-- 11.57>>> TWO WAY DATA BINDING DANS LES FORMULAIRES
+                  #password="ngModel" name="password" [(ngModel)]="user.password"
+                -->
+          <input type="password" #password="ngModel" name="password" [(ngModel)]="user.password" class="form-control" required />
+          <!-- ? Ajouter : [(ngModel)]="user.email" ?
+      = Add Angular form controls and bind them to your component properties using ngModel for two-way data binding. This allows you to interact with the form data in your component.-->
+        </p>
+        <input type="submit" value="Login" class="btn btn-primary" />
+      </form>
+    </div>
+
+    <!-- Registration Form -->
+    <div class="col-lg-6 col-md-9 col-sm-9">
+      <h1>Enregistre-toi</h1>
+      <form class="col-md-8">
+        <p>
+          <label>Nom:</label>
+          <input type="text" class="form-control" required />
+        </p>
+        <p>
+          <label>Prénom:</label>
+          <input type="text" class="form-control" required />
+        </p>
+        <p>
+          <label>Email</label>
+          <input type="text" class="form-control" required />
+        </p>
+
+        <p>
+          <label>Email:</label>
+          <input type="text" class="form-control" required />
+        </p>
+        <p>
+          <label> Mot de Passe:</label>
+          <input type="password" class="form-control" required />
+        </p>
+        <!-- TODO  Ajouter : bouton déhasher le mdp -->
+        <!-- les deux divs principales /formulaires ne sont pas côte à côte ? Apparemment, à cause des versions >=4 de Bootstrap ; In Bootstrap, columns are intended to stack vertically on smaller screens unless you specify a larger grid size. Bootstrap's col-lg-* classes are intended for large screens.-->
+        <input type="submit" value="S'inscrire" class="btn btn-primary" />
+      </form>
+    </div>
+  </div>
+  <!-- <<<11.56 CREAR FORMULARIOS DE LOGIN Y REGISTRO -->
+
+</div>
+
+
+
+<!--  // <<<11.55 COMPONENTE PRINCIPAL Y VISTA>>> <src /index.html -->

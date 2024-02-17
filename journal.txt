@@ -1,0 +1,18 @@
+dernière semaine de janvier : 
+
+C>>> node v.16 et Angular v.14 seems to work fine to add an app with its app.modules file and all ; 
+hunkydory !!!
+..... Ou pas 
+↓               ↓       
+        ↓
+J'ai lutté avec plein de versions de Angular + node + ts, ça a été assez compliqué, mais j'ai trouvé plutôt par hasard, en tâtonnant, normalement avec les vidéos de Chaddy ; utiliser les er version si tu veux, et utiliser la commande : 
+>
+npm init @angular client
+<
+A la place de ng create machin truc 
+.. Merci Chad !!!
+Result : still node v.20, angular v.17
+
+
+
+in 11.55>>> Le typage c'est ultra chiant !!!!

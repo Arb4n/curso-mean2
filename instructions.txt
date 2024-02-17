@@ -4,4 +4,406 @@ S11>>> EMPEZANDO A DEZAROLLAR EL FRONTEND SPA CON ANGULAR
 Bien organiser : créer && ouvrir un dossier api 
 Mettre tout le backend dedans. 
 
+11.51>>> INSTALAR ANGULAR CLI
 
+>go to : >cydrive/c/wamp/www 
+>installer la version la plus récente de npm pour qu'elle colle avec la version d'Angular
+npm install -g npm install -g npm 
+↓       ↓         ↓
+!!!!!!> eh bé non !! utiliser nvm pour repérer les versions compatibles
+Needs Python 2.7 ???
+<
+|→ génère un build minifié pour la production de l'app
+>check la version : 
+npm -v 
+<
+
+>Installer l'interface de commandes de Angular : 
+npm install -g angular-cli
+<
+
+> new project : 
+ng new curso-angular-cli
+< Permet d'avoir : 
+- un système d'?aggrégateur? comme on a avant, pour que quand on change quelque chose, l'app se rafraîchit ; 
+- des outils pour réaliser les tests ;
+- des outils pour 'desplegar' le projet = des outils qui vont nous permettre d'unifier tout en créant un build, puis le charger ou autre;
+Toutes les dépendances sont créées via npm, tout le framework de Angular2 se charge, ses paquets, ses dépendances, tous les fichiers nécessaires sont générés. 
+
+!!!>>>
+Problèmes de version avec Node et Angular 17 !!!
+https://angular.io/guide/versions
+https://www.freecodecamp.org/news/nvm-for-windows-how-to-download-and-install-node-version-manager-in-windows-10/
+https://stackoverflow.com/questions/50415235/how-to-change-upgrade-or-downgrade-angular-version
+https://stackoverflow.com/questions/75386050/i-want-to-download-angular-v14-but-i-get-angular-v15
+https://nx.dev/nx-api/workspace/documents/nx-nodejs-typescript-version-matrix
+
+
+!!!!! Big proble m of incompatibility with version of node and angular !!!
+Only compatible node = v. 16 & v. 18 ; v.18 looks unstable !!!
+
+-> insatll nvm /node version manager ?
+install nvm 
+>
+nvm list
+<
+>
+nvm use 
+<
+>
+npm list -global --depth 0
+<
+ng version
+> 
+npm install -g @angular/cli@14
+<
+
+ctrl + u 
+
+
+npm list -global --depth 0
+C:\Users\al_b4\AppData\Roaming\npm
+├── @angular/cli@14.2.13
+├── create-react-app@5.0.1
+├── lists2@
+├── mon_first_projet@
+├── npm@10.4.0
+└── typescript@4.5.2
+
+
+Nx Version	Node Version	Typescript Version
+13.x	10.x, 12.x, 14.x	~4.6.2
+14.x	12.x, 14.x, 16.x	~4.7.2
+15.x	14.x, 16.x, 18.x	~5.0.0
+16.x (previous)	16.x, 18.x, 20.x	~5.1.0
+17.x (latest)	18.x, 20.x	~5.1.0
+
+!!!!!!!!!!!!! SOLUTION !!!!!!!!!!!!!!!!!!!!!
+https://stackoverflow.com/questions/77903071/variable-crypto-must-be-of-type-crypto-but-here-has-type-crypto
+>>> go to : node_modules/@types/node/ts4.8/crypto.d.ts 
+>>> comment variable 
+>
+        // var crypto: webcrypto.Crypto;
+<
+
+$ npm list -global --depth 0
+C:\Program Files\nodejs -> .\
+├── @angular/cli@14.2.13
+├── corepack@0.15.2
+└── npm@8.19.3
+
+
+<<<!!!
+
+C>>> node v.16 et Angular v.14 seems to work fine to add an app with its app.modules file and all ; 
+hunkydory !!!
+..... Ou pas 
+↓               ↓       
+        ↓
+>
+npm init @angular client
+<
+.. Merci Chad !!! ... ou pas eeeeet c'est perdu !! 
+TRUE -> ng new --no-standalone app_name ; avec ça, tu as tes app.module et tout banana
+
+Result : still node v.20, angular v.17
+
+It seems you're using a Windows environment, and the ls command is typically used in Unix-based systems like Linux or macOS. In Windows, you should use the dir command to list files and directories. Here's the equivalent command:
+
+bash
+Copy code
+dir
+This will list the contents of the current directory. If you want detailed information, you can use:
+
+bash
+Copy code
+dir /w
+Or, for a more detailed list:
+
+bash
+Copy code
+dir /a
+
+IN THE END>>> 
+Struggled with versions, j'ai tâtonné un peu plutôt que compris pourquoi ça avait fonctionné comme ça ^^'
+
+!!!>>> TRUE -> ng new --no-standalone app_name ; avec ça, tu as tes app.module et tout, banana
+
+<<<11.51 INSTALAR ANGULAR CLI
+______________________
+__________________________________
+____________________
+
+11.52>>>Instalar Angular > curso-mean2/client
+>curso-mean2
+>
+ng new client
+<
+
+webpack
+scaffolding /Staging
+
+
+!!!>>> TRUE -> ng new --no-standalone app_name ; avec ça, tu as tes app.module et tout, banana
+
+<<<11.52
+
+11.53>>>Incluir assets, bootstrap, jquery
+
+!!!>>> jQuery required : 
+Please note that all JavaScript plugins require jQuery to be included, as shown in the starter template. Consult our bower.json to see which versions of jQuery are supported.
+
+1>>>Dl jquery cdn > jquery 1.x 'minified'
+copy src="https://code.jquery.com/jquery-1.12.4.min.js" & open in another window ; then save the page in "
+>>
+client/src/assets/js/jquery.min.js
+"
+
+cf>> > ctrl + u <!!
+
+2>>> download bootstrap
+>
+npm i bootstrap@5.3.2
+<
+ou bower aussi ; 
+
+BUT here, dl boostrap and extract files in 
+>>
+client/src/assets/bootstrap
+WHY NO FONTS ???
+
+GO>>> Navigateur
+Essayer la commande : 
+>
+$('body');
+<
+
+<<<11.53 Incluir assets, bootstrap, jquery
+
+11.54>>> CREAR MODELOS DE DATOS
+!!!>>>
+Quelque chose qui peut être très utile : 
+créer tous les modèles dès le début : ils vont être utilisés continuellement dans les fichiers de l'app, et ne sont pas connectés au reste
+
+GO>>> app/
+créer models/
+Créer un modèle pour chaque ENTITE du BACKEND 
+???User.js : juste une série de propriétés définies dedans ???
+Anyway, créer un miroir des modèles qui sont dans la partie backend de l'app
+= créer un constructeur qui initialise cette propriété automatiquement et lui assigne une valeur -> cf. access modifiers ; typescript permet de définir les propriétés directement dans les paramètres du constructeur avec des access modifiers. 
+
+<<<11.54 CREAR MODELOS DE DATOS
+
+11.55>>> COMPONENTE PRINCIPAL Y VISTAL>>>
+1>>> Adapter la VUE = component html :
+le login et register seront dans le COMPOSANT PRINCIPAL app.component.html ; 
+il y aura une DIV aver le ROUTER outlet = la partie dans laquelle se chargeront les différentes pages de l'app
+; MAIS : elles ne se verront que si on est identifié 
+SINON : il y aur un div avec le formulaire de LOGIN et  REGISTER : 
+quand on ne sera pas identifié, on nous montrera les deux formulaires de login/REGISTER -> utilisation de local sorage et de jwt 
+
+
+!!!>>> 
+added in >ts.config : 
+>
+"compilerOptions": {
+    "noImplicitAny": false,
+}
+<
+
+check : *ngIf 
+
+<<<11.55 COMPONENTE PRINCIPAL Y VISTAL
+
+SECTION 12: Login & Registro in Frontend 
+
+11.56>>> CREAR FORMULARIOS DE LOGIN Y REGISTRO
+Créer les formulaires de login et de register 
+↓
+Vérifier si on a le FormModule dans app.module.ts
+Le module de formulaire va permettre de travailler avec le formulaire et travailler avec le plugin DATABINDing 
+= on lie les propriétés qu'on a dans le COMPOSANT avec celles qu'ont a dans la VUE
+
+Une fois un formulaire pour se login et un pour s'eneregistrer sont créés,
+on va utiliser ces jointures de données pour recevoir els données qu'on va recevoir dans les deux différents formulaires, les recevoir dans le composant, et avoir l'information pour l'envoyer dans une requète Ajax à l'API et pouvoir récupérer des données de la bdd, et pouvoir mettre des données dans la base de données.  
+
+<<<11.56 CREAR FORMULARIOS DE LOGIN Y REGISTRO
+
+11.57>>> TWO WAY DATA BINDING DANS LES FORMULAIRES
+>app.component.html
+>app.component.ts
+Convertir le formulare de login en un formulaire angular.
+= simplement lui donner un nom : #loginForm
+et on lui donne la valeur d'un/ lui indique qu'il est un formulaire angular : 
+="ngForm" 
+De la même manière, à chaque champ son nom : 
+#email="ngModel"
+nom du champ 'email', type = 'ngModel' = binding
++ propriété html name="email", 
++ directive binding pour le lien databinding [()] : 
+[(ngModel)]
+#password etc.
+SI l'email n'est pas rempli, montrer un message d'erreur 
+
+   <form #loginForm="ngForm" (ngSubmit)="onSubmit()" 
+   class="col-md-8"> <!-- créer la méthode onSubmit 
+   pour vérifier les données du formulaire > app.component.ts -->
+
+Two way data binding : on remarquera que grace à cela, 
+si on modifie les infos dans la vue, elles se momdifieront dans le component, 
+et si on les modifie dans le component, elles se modifieront dans la vue
+<<<11.57 TWO WAY DATA BINDING DANS LES FORMULAIRES
+
+11.58>>> CREER DES SERVICES
+On va créer un service pour communiquer avec l'api, 
+pour pouvoir faire des requètes à l'API REST pour faire le login
+et différentes choses avec les utilisateurs.
+Un SERVICE est une CLASSE dans laquelle on va avoir 
+des METHODES différentes qui vont intéragir avec l'api.
+>CREER un dossier services + fichier user.services.ts
+>Dans un service ? 
+>/app/services/user.service.ts
+import {} = importer les fichiers qu'on va utiliser  
+Ici, composant Injectable, qui vien de Angular2 -> @angular/core
+&& http, response, headers de @angular/http&& une librairie pour mapper les objets
+= rxjs rxjs/add/operator/map
+&& des observables pour récupérer la requète au serveur  
+
+2: 
+Définir le décorateur
+>@Injectable dans la classe UserService 
+au début, pour permettre 
+que au travers de l'injection de dépendances,
+on puisse injecter le service de cette classe 
+dans d'autres composants et pouvoir facilement 
+l'utiliser.
+>
+export class UserService{
+
+}
+<
+
+Puis intégrer dans la CLASSE les METHODES
+qu'on va utiliser. 
+DONC un LOGIN
+REGISTER Etc
+
+Une propriété public url = string 
+url va garder l'URL de notre API REST http://localhost:4200
+Il est recommandé d'avoir un fichier où on a les configurations standard
+, communes dans le reste des services et composants.
+-> création d'un fichier de configuration globale 
+E.G : 
+> services/global.ts
+
+ERR>>>Module '"rxjs/Observable"' has no exported member 'Observable'.ts(2305)
+// import { Observable } from 'rxjs/Observable'; // ... NOT ↓  ↓ 
+import { Observable } from 'rxjs'; 
+<<<ERR
+ERR>>>
+Property 'url' has no initializer and is not definitely assigned in the constructor.ts(2564)
+↓       ↓       ↓ 
+>
+ public url: string;
+<
+attend d'avoir initialisé url in : 
+ constructor(private _http: Http) {
+        this.url = GLOBAL.url;
+    }
+<<<ERR
+ERR>>>
+in navigator in console : 
+>
+User
+ERROR NullInjectorError: R3InjectorError(_AppModule)[_HttpClient -> _HttpClient]: 
+  NullInjectorError: No provider for _HttpClient!
+    Angular 8
+    UserService_Factory user.service.ts:17
+    Angular 5
+    AppComponent_Factory app.component.ts:12
+    Angular 19
+core.mjs:11860:22
+<
+SOLUTION : 
+in app.module: 
+>
+import { HttpClientModule } from '@angular/common/http';
+<
+
+<<<ERR
+ERR>>>
+Property 'ɵunwrapWritableSignal' does not exist on type 'typeof import("c:/wamp64/www/231012_curso_node_angjs_victorRobles/curso-mean2/client/node_modules/@angular/core/index")'.ngtsc(2339)
+app.component.ts(9, 62): Error occurs in the template of component AppComponent.
+      ↓
+      This error occurs for Angular Language Service VS code extension update. Just reload the extension or uninstall then install again, it will fix.
+
+Probably VS code extension tab already suggest you to reload the extension.
+<<<ERR
+
+
+<<<ERR
+<<<11.58 CREER DES SERVICES
+
+11.60>>> 11.60>>>
+ERR>>>
+Si en Angular 6 te genera algun fallo la libreria map, importala de esta manera en tu servicio:
+
+import {map} from 'rxjs/operators'; 
+
+Y usala de esta manera:
+
+.pipe(map(res => res.json())); 
+
+Nos vemos en la siguente clase :)
+<<<ERR
+ERR>>>
+ERROR in node_modules/rxjs/Observable.d.ts(1,15): error TS2307: Cannot find module 'rxjs-compat/Observable'.
+
+Para solucionarlo tenemos que cortar la ejecución de nuestro servidor local de desarrollo de Angular pulsando Ctrl+C y ejecutamos este comando para instalar una libreria que falta:
+
+npm install --save rxjs-compat
+
+Después arrancamos de nuevo nuestro proyecto de Angular con el comando:
+
+ng serve
+
+y todo estará listo.
+
+Nos vemos en la siguiente clase. Muchas gracias :)
+<<<ERR
+<<<11.59 <<<11.60 
+
+
+
+11.61>>>
+
+
+
+<<<11.61
+
+
+TODO>>>
+in console F12 : >
+Erreur dans les liens source : Error: request failed with status 404
+URL de la ressource : http://localhost:4200/@vite/client
+URL du lien source : client.mjs.map
+<<<TODO
+
+!!!!>>>
+{#  #} in html vs code instead of <!-- -->
+If you don't want to disable/uninstall any plugin, you can create a snippet to put a comment. For example, I create a snippet that add HTML comments in a PHP file:
+>html.json
+    "comment HTML": {
+      "prefix": "chtml",
+      "body": ["<!-- $1 -->"],
+      "description": "Comment HTML line"
+    }
+
+You can insert that right after the comment in File > Preferences > User Snippets > {YourExtension}
+
+Then, when you start typing 'chtml' in that kind of files, IntelliSense will prompt that snippet.
+
+Maybe this is a workarround, but it works excellent for me. Hope it helps!
+
+https://code.visualstudio.com/docs/customization/userdefinedsnippets
+<<<!!!
