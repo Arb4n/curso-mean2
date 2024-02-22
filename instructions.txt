@@ -255,6 +255,8 @@ et si on les modifie dans le component, elles se modifieront dans la vue
 <<<11.57 TWO WAY DATA BINDING DANS LES FORMULAIRES
 
 11.58>>> CREER DES SERVICES
+>user.service.ts
+>app.component.ts
 On va créer un service pour communiquer avec l'api, 
 pour pouvoir faire des requètes à l'API REST pour faire le login
 et différentes choses avec les utilisateurs.
@@ -375,11 +377,61 @@ Nos vemos en la siguiente clase. Muchas gracias :)
 
 
 
-11.61>>>
+11.61>>> METHODE DE LOGIN DANS LE SERVICE UTILISATEURS 
+>user.service.ts
+On va faire en sorte que la méthode signUp() créée dans le service fonctionne et intéragisse avec l'api rest. 
+>user.service.ts 
+Ce que va recevoir la méthode sont deux paramètres : le USER, qu'on va logger, = OBJET : signUp(user_to_login) = le user qu'ont va logger, et un deuxième paramètre, ALTERNATIF = signUp( ,getHash).
+Il doit être initialisé en =null, car il ne va pas être obligatoire.
+On va avoir besoin que l'API REST sorte un hash, pas l'objet de l'user loggé. 
+D'UN COTE: si on lui sort un getHash, il ne va pas sortir avec les données complètes en clair du user, 
+et DE DEUX : il va renvoyer un token JWT qu'on a généré dans le back, pour pouvoir le réutiliser ; 
+pour pouvoir faire une pétition au service REST, on doit d'abord créer une variable json: 
+let json =  
+et on convertit en string l'objet qu'on va recevoir : 
+json = JSON.stringify(user_to_login);
+puis on crée une autre variable, params : 
+let params = json;
+-> elle aura la valeur de json convertie en string 
+PUIS : 
+configuration des headers : 
+>>let headers = new Headers
+COmme on utiliser JS aussi dans le serveur, on va lui passer un content-type de type application/: 
+>>let headers = new Headers({'Content-type: 'application/json'})
+Autrement, si on utilise une autre méthode dans le back, un autre type de backend, on peut passer les données en XWWW url encoded ou une autre manière; 
+Mais ici, on travaille en MEAN stack = JS, donc une codification en Json 
+ET un retour -> on renvoie la méthode post, pétition par post, à l'url: 
+>>return this._http.post(this.url+);
+Puis on va faire une demande à la méthode login qui est contenu dans l'API. -> DONC on envoie les données à la méthode login, et login nous renvoie quelque chose en retour. 
+>>(this.url+'login'+)
+puis on lui passe des paramètres params = les paramètres qui sont les données qu'on  fait passer à cette méthode par POST dans le body de la request :
+>>return this._http.post(this.url+'login', params, );
+puis on lui fait passer également les headers : 
+>>return this._http.post(this.url+'login', params, {headers: headers});
+Il ne reste qu'à capturer la réponse = la mapper = mapper cette réponse map, 
+et elle a une fonction de callback, on reçoit une réponse du serveur, qu'on codifie en un objet json utilisable.  Pas de texte etc., simplement un objet
+>>return this._http.post(this.url+'login', params, {headers: headers}).map(res => res.json());
 
+!!!>>>
+The Http module has been deprecated, and HttpClient is recommended for use.
+Since you're using HttpClient, you should use HttpHeaders instead of Headers
+>>
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+<<
+<<<!!!
 
+<<<!!!>>>
+In Angular, when using the newer versions of HttpClient (Angular 4.3 and above), there is no need to call res.json() explicitly, as the response is automatically parsed as JSON. Therefore, you can remove the map operator from your signUp method.
+-> change the method TODO
+<<<!!!
 
-<<<11.61
+<<<11.61 
+METHODE DE LOGIN DANS LE SERVICE UTILISATEURS 
+
+<<<11.62>>> APPEL DU SERVICE POUR IDENTIFIER L'UTILISATEUR
+<<<11.62APPEL DU SERVICE POUR IDENTIFIER L'UTILISATEUR
 
 
 TODO>>>

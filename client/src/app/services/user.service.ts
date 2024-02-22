@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 // import { Http, Response, Headers } from '@angular/http'; // All deprecated -> https://pixel-tones.com/angular-http-deprecated/
 //TODO? replace by : httpClientModule? TODO
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 // import 'rxjs/add/oprerator/map'; problématique dans des versions récentes
 // ↓    ↓    ↓ 
@@ -24,9 +24,23 @@ export class UserService {
         this.url = GLOBAL.url;
     }
     // test de la méthode avec la méthode signUp: 
-    signUp() {
-        return "Hello, test du service"
+    // 11.61 >>> METHODE DE LOGIN DANS LE SERVICE UTILISATEURS 
+    // signUp(user_to_login, getHash = null) {
+    signUp(user_to_login, getHash = null): Observable<any> {
+        // return "Hello, test du service"
+        if (getHash != null) {
+            user_to_login.getHash = getHash
+        }
+        let json = JSON.stringify(user_to_login);
+        let params = json;
+
+        let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+        return this._http.post(this.url + 'login', params, { headers: headers })
+            // .map(res => res.json());
+            .pipe(map((response: any) => response.json()));
     } // On va ensuite appeler le service depuis un component >app.component.ts
+    // <<<11.61 METHODE DE LOGIN DANS LE SERVICE UTILISATEURS > app.component.ts
 }
 
 // <<<11.58 CREER DES SERVICES >services/global.ts

@@ -22,6 +22,8 @@ export class AppComponent implements OnInit {
   // tout l'objet user est identifié dedans, -> quand le login est fait dans le local storage, un objet identity est sauvegardé = au moment du chargement du composant, la première chose que fait l'app  
   public token; // le token pour passer le service
 
+  public errorMessage;
+
   // Le constructeur : assigne une valeur à une propriété de la classe 
   // par défaut, on donne donc une valeur à la propriété user
   // On crée dans la propriété user un objet User avec sa propriété initialisée vide
@@ -37,12 +39,42 @@ export class AppComponent implements OnInit {
   // Comment ? -> ngOnInit : charge le composant, exécute le code 
   // ngOnInit à importer en haut ↑ && à implémenter dans la méthode AppComponent 
   ngOnInit() {
-    var texte = this._userService.signUp() // appel de la méthode : this.objetduService.AppelDeLaméthode
+    var texte = this._userService.signUp({}) // appel de la méthode : this.objetduService.AppelDeLaméthode
     console.log(texte);
   }
-  // 11.57>>> <app.component.html
+  // <<<11.57>>> <app.component.html
   //  créer la méthode onSubmit pour vérifier les données du formulaire -- >
   public onSubmit() {
+    // <<<11.62 >> METHODE DE LOGIN DANS LE SERVICE UTILISATEURS <user.service.ts
     console.log(this.user);
+    // méthode .subscribe pour appeler l'observable, et une fonction de charge qui va recevoir un response ou un error
+    // Obtenir les données de l'utilisateur identifié : 
+    this._userService.signUp(this.user).subscribe( // TODO : trouver une méthode qui n'est pas deprecated
+      response => {
+        // Si la réponse est correctement reçue, on reçoit toutes les données renvoyées l'api. Ici, les données de User
+        let identity = response.user;
+        this.identity = identity;
+        // if (!this.identity._id) {
+        if (!this.identity) {
+          alert("L'utilisateur ne s'est pas correctement identifié");
+        } else {
+          // Créer un élément dans le localStorage pour avoir une session user
+
+          // Obtenir un token pour l'envoyer à chaque requête http. 
+        }
+        console.log(response); // >app.component.html
+
+      },
+      error => {
+        var errorMessage = <any>error;
+
+        if (errorMessage != null) {
+          var body = JSON.parse(error._body);
+          this.errorMessage = error;
+          console.log(error)
+        }
+      }
+    )
   }
+  // <<<11.62 METHODE DE LOGIN DANS LE SERVICE UTILISATEURS 
 }
